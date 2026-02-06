@@ -59,25 +59,18 @@ export const validateLogin = (req, res, next) => {
 
 export const validateUpdate = (req, res, next) => {
   const schema = Joi.object({
-    name: Joi.string().required().min(3).max(50).messages({
+    name: Joi.string().min(3).max(50).messages({
       "string.base": "Nama harus string.",
-      "string.empty": "Nama pengguna tidak boleh kosong",
       "string.min":
         "Nama pengguna harus memiliki setidaknya {#limit} karakter.",
       "string.max": "Nama pengguna tidak boleh melebihi {#limit} karakter",
-      "any.required": "Nama Pengguna Harus Di Isi",
     }),
-    email: Joi.string().email().required().messages({
+    email: Joi.string().email().messages({
       "string.base": "Email harus string.",
       "string.email": "Format email tidak valid.",
-      "string.empty": "Email tidak boleh kosong.",
-      "any.required": "Email wajib diisi.",
     }),
-    password: Joi.string().min(8).required().messages({
-      "string.base": "Password harus string.",
-      "string.min": "Password harus memiliki setidaknya {#limit} karakter.",
-      "string.empty": "Password tidak boleh kosong.",
-      "any.required": "Password wajib diisi.",
+    chat_id: Joi.string().messages({
+      "string.base": "chat_id id harus string.",
     }),
   });
 

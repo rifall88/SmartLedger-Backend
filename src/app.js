@@ -9,6 +9,8 @@ import {
   startScheduler,
   startExpenditureChecker,
 } from "./controllers/notifikasiController.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./docs/api-specs.json" assert { type: "json" };
 
 dotenv.config();
 const app = express();
@@ -21,6 +23,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/schedules", scheduleRoutes);
 app.use("/api/expenditures", expenditureRoutes);
 app.use("/api/debts", debtRoutes);
+
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 startScheduler();
 startExpenditureChecker();

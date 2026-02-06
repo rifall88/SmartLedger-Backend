@@ -1,0 +1,462 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SmartLedger API",
+    "version": "1.0.0",
+    "description": "Dokumentasi API website SmartLedger."
+  },
+  "servers": [
+    {
+      "url": "https://apimyschedule.projectbase.my.id",
+      "description": "Development Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Schedules"
+    },
+    {
+      "name": "Expenditures"
+    },
+    {
+      "name": "Debts"
+    }
+  ],
+  "paths": {
+    "/api/users/register": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Register new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["name", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Register success." }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login success." }
+        }
+      }
+    },
+    "/api/users/by-id": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user by id",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update user by id",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "chat_id": { "type": "string" }
+                },
+                "required": ["title", "description", "date", "time"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    },
+    "/api/schedules/": {
+      "post": {
+        "tags": ["Schedules"],
+        "summary": "Create new schedule",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "date": { "type": "string", "format": "date" },
+                  "time": {
+                    "type": "string",
+                    "pattern": "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+                  }
+                },
+                "required": ["title", "description", "date", "time"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Create schedule success." }
+        }
+      },
+      "get": {
+        "tags": ["Schedules"],
+        "summary": "Get all schedule",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/schedules/{id}": {
+      "get": {
+        "tags": ["Schedules"],
+        "summary": "Get schedule by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "put": {
+        "tags": ["Schedules"],
+        "summary": "Update schedule by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "date": { "type": "string", "format": "date" },
+                  "time": {
+                    "type": "string",
+                    "pattern": "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+                  }
+                },
+                "required": ["title", "description", "date", "time"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "delete": {
+        "tags": ["Schedules"],
+        "summary": "Delete schedule by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    },
+    "/api/expenditures/": {
+      "post": {
+        "tags": ["Expenditures"],
+        "summary": "Create new expenditure",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "item_name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "harga": { "type": "integer" },
+                  "date": { "type": "string", "format": "date" }
+                },
+                "required": ["item_name", "description", "harga", "date"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Create expenditure success." }
+        }
+      },
+      "get": {
+        "tags": ["Expenditures"],
+        "summary": "Get all expenditure",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/expenditures/{id}": {
+      "get": {
+        "tags": ["Expenditures"],
+        "summary": "Get expenditure by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "put": {
+        "tags": ["Expenditures"],
+        "summary": "Update expenditure by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "item_name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "harga": { "type": "integer" },
+                  "date": { "type": "string", "format": "date" }
+                },
+                "required": ["item_name", "description", "harga", "date"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "delete": {
+        "tags": ["Expenditures"],
+        "summary": "Delete expenditure by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    },
+    "/api/debts/": {
+      "post": {
+        "tags": ["Debts"],
+        "summary": "Create new debt",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "creditor_name": { "type": "string" },
+                  "debtor_name": { "type": "string" },
+                  "amount": { "type": "integer" },
+                  "borrowed_date": { "type": "string", "format": "date" },
+                  "description": { "type": "string" },
+                  "status": {
+                    "type": "string",
+                    "enum": ["Unpaid", "Installment", "Paid"]
+                  },
+                  "paid_date": { "type": "string", "format": "date" }
+                },
+                "required": [
+                  "creditor_name",
+                  "debtor_name",
+                  "amount",
+                  "borrowed_date",
+                  "description",
+                  "status",
+                  "paid_date"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Create debt success." }
+        }
+      },
+      "get": {
+        "tags": ["Debts"],
+        "summary": "Get all debt",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Ok." }
+        }
+      }
+    },
+    "/api/debts/{id}": {
+      "get": {
+        "tags": ["Debts"],
+        "summary": "Get debt by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "put": {
+        "tags": ["Debts"],
+        "summary": "Update debt by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "creditor_name": { "type": "string" },
+                  "debtor_name": { "type": "string" },
+                  "amount": { "type": "integer" },
+                  "borrowed_date": { "type": "string", "format": "date" },
+                  "description": { "type": "string" },
+                  "status": {
+                    "type": "string",
+                    "enum": ["Unpaid", "Installment", "Paid"]
+                  },
+                  "paid_date": { "type": "string", "format": "date" }
+                },
+                "required": [
+                  "creditor_name",
+                  "debtor_name",
+                  "amount",
+                  "borrowed_date",
+                  "description",
+                  "status",
+                  "paid_date"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      },
+      "delete": {
+        "tags": ["Debts"],
+        "summary": "Delete debt by id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ok" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

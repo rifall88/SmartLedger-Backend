@@ -23,3 +23,6 @@ JWT_SECRET=""
 PORT=
 TELEGRAM_TOKEN=""
 ```
+
+Jika ingin akses swaggernya langsung bisa klik link di bawah ini 👇👇👇
+https://apimyschedule.projectbase.my.id/swagger/

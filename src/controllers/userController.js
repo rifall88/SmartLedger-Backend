@@ -45,7 +45,7 @@ export const login = async (req, res) => {
     const token = jwt.sign(
       { id: user.id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
     res.status(200).json({
       status: true,
@@ -63,15 +63,30 @@ export const login = async (req, res) => {
   }
 };
 
+export const getUserById = async (req, res) => {
+  const id = req.user.id;
+  try {
+    const getUser = await User.findById(id);
+    if (!getUser) {
+      return res.status(404).json({ message: "User not fount" });
+    }
+    res.status(200).json({ status: true, data: getUser });
+  } catch (error) {
+    console.error("Error getting user: ", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const updateUser = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { name, email, password } = req.body;
+    const { name, email, chat_id } = req.body;
 
     const dataToUpdate = {};
 
     if (name) dataToUpdate.name = name;
     if (email) dataToUpdate.email = email;
+    if (chat_id) dataToUpdate.chat_id = chat_id;
 
     const updatedUser = await User.update(userId, dataToUpdate);
 
@@ -79,11 +94,9 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
 
-    const { password: _, ...userWithoutPassword } = updatedUser;
-
     res.status(200).json({
       message: "User berhasil diperbarui",
-      user: userWithoutPassword,
+      user: updatedUser,
     });
   } catch (error) {
     console.error("Error updating user:", error);
